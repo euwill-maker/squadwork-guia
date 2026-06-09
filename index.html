@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Squadwork — Guia de Instalação</title>
+<meta name="description" content="Coloque seu time de IA pra rodar do zero em ~25 minutos. Passo a passo para Mac e Windows.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23071a10'/%3E%3Ctext x='50' y='70' font-size='58' text-anchor='middle' fill='%2322ff88'%3E%E2%AC%A1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#03070a;--bg2:#06120c;--line:#123d24;--line2:#0d2c1a;
+  --blue:#16ff6a;--blue-l:#7dffaa;--blue-d:#05e85f;--cyan:#1fffc4;
+  --txt:#dcffe9;--txt2:#83c79e;--txt3:#56906f;--green:#22c55e;--amber:#ffbd2e;
+  --display:'Bricolage Grotesque',sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--blue-l)}
+.wrap{max-width:780px;margin:0 auto;padding:0 22px}
+h1,h2,h3{font-family:var(--display);font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.grad{background:linear-gradient(90deg,#7dffaa,#16ff6a,#1fffc4);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gradmove 4s linear infinite}
+@keyframes gradmove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(22,255,106,.5)}50%{box-shadow:0 0 0 14px rgba(22,255,106,0)}}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+#matrix{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.18;pointer-events:none}
+
+/* ===== HEADER (sticky progress) ===== */
+header{position:sticky;top:0;z-index:30;background:rgba(3,7,10,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line2)}
+.hbar{max-width:780px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;gap:14px}
+.logo{font-family:var(--display);font-weight:800;font-size:17px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo .mark{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:13px;background:linear-gradient(135deg,var(--blue),var(--cyan))}
+.progress{flex:1;height:9px;border-radius:20px;background:#0a2014;overflow:hidden;position:relative}
+.progress .fill{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:20px;transition:width .5s ease}
+.pcount{font-family:var(--mono);font-size:12px;color:var(--txt2);white-space:nowrap}
+@media(max-width:560px){.logo span.txt{display:none}}
+
+/* ===== HERO ===== */
+.hero{padding:60px 0 26px;text-align:center;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(32px,6vw,52px);margin-bottom:16px}
+.hero p{color:var(--txt2);font-size:clamp(15px,2.2vw,18px);max-width:560px;margin:0 auto 24px}
+.pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--blue-l);background:rgba(22,255,106,.1);border:1px solid rgba(22,255,106,.32);padding:7px 14px;border-radius:30px;margin-bottom:20px}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);animation:pulse 2.4s ease infinite}
+
+/* ===== OS SWITCHER ===== */
+.os-switch{display:inline-flex;background:var(--bg2);border:1px solid var(--line);border-radius:13px;padding:5px;gap:5px;margin-bottom:8px}
+.os-switch button{font-family:var(--body);font-weight:700;font-size:14px;color:var(--txt2);background:transparent;border:none;cursor:pointer;padding:10px 22px;border-radius:9px;display:flex;align-items:center;gap:8px;transition:.2s}
+.os-switch button.active{background:linear-gradient(90deg,var(--blue),var(--blue-d));color:#03070a}
+.os-hint{font-family:var(--mono);font-size:12px;color:var(--txt3);margin-bottom:8px}
+
+/* show/hide by OS */
+body[data-os="mac"] .os-win{display:none}
+body[data-os="win"] .os-mac{display:none}
+
+/* ===== STEPS ===== */
+.steps{padding:30px 0 60px}
+.step{border:1px solid var(--line);border-radius:18px;background:var(--bg2);margin-bottom:18px;overflow:hidden;transition:border-color .3s}
+.step.done{border-color:rgba(34,197,94,.4)}
+.step-head{display:flex;align-items:flex-start;gap:15px;padding:24px}
+.step-num{width:38px;height:38px;flex-shrink:0;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:17px;background:rgba(22,255,106,.14);border:1px solid rgba(22,255,106,.34);color:var(--blue-l)}
+.step.done .step-num{background:rgba(34,197,94,.16);border-color:rgba(34,197,94,.4);color:var(--green)}
+.step-num .check{display:none;animation:pop .3s ease}
+.step.done .step-num .n{display:none}
+.step.done .step-num .check{display:block}
+.step-head .ttl{flex:1}
+.step-head h3{font-size:20px;margin-bottom:4px}
+.step-head .time{font-family:var(--mono);font-size:11.5px;color:var(--txt3)}
+.step-body{padding:0 24px 24px 77px}
+.step-body p{color:var(--txt2);font-size:14.5px;margin-bottom:14px}
+.step-body p strong{color:#fff}
+.step-body ul{color:var(--txt2);font-size:14.5px;margin:0 0 14px 18px}
+.step-body li{margin-bottom:6px}
+
+/* code block + copy */
+.cmd{position:relative;background:#04100a;border:1px solid var(--line);border-radius:11px;padding:14px 52px 14px 16px;font-family:var(--mono);font-size:13.5px;color:#cdffe0;margin-bottom:14px;overflow-x:auto;white-space:pre}
+.cmd .copy{position:absolute;top:8px;right:8px;background:rgba(22,255,106,.16);border:1px solid rgba(22,255,106,.34);color:var(--blue-l);font-family:var(--body);font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px;cursor:pointer;transition:.2s}
+.cmd .copy:hover{background:var(--blue);color:#03070a}
+.cmd .copy.ok{background:var(--green);border-color:var(--green);color:#04210f}
+
+/* check box */
+.check-it{display:flex;align-items:center;gap:10px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.22);border-radius:11px;padding:11px 14px;font-size:13.5px;color:#bfe8cd;margin-bottom:14px}
+.check-it b{color:#fff}
+.check-it .ic{color:var(--green)}
+
+/* troubleshoot */
+details.trb{border:1px solid var(--line);border-radius:11px;background:#06120c;margin-bottom:6px}
+details.trb summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:13.5px;font-weight:600;color:var(--amber);display:flex;align-items:center;gap:9px}
+details.trb summary::-webkit-details-marker{display:none}
+details.trb summary .plus{margin-left:auto;color:var(--txt3);font-size:18px;transition:transform .25s}
+details.trb[open] summary .plus{transform:rotate(45deg)}
+details.trb .trb-body{padding:0 16px 16px;font-size:13.5px;color:var(--txt2)}
+details.trb .trb-body .cmd{margin-top:10px}
+
+/* mark done btn */
+.mark{display:inline-flex;align-items:center;gap:9px;margin-top:6px;cursor:pointer;font-family:var(--body);font-weight:700;font-size:14px;padding:11px 20px;border-radius:11px;border:1px solid var(--line);background:transparent;color:var(--txt2);transition:.2s}
+.mark:hover{border-color:var(--blue);color:#fff}
+.step.done .mark{background:rgba(34,197,94,.14);border-color:rgba(34,197,94,.4);color:var(--green)}
+.mark .box{width:18px;height:18px;border-radius:5px;border:2px solid currentColor;display:grid;place-items:center;font-size:11px}
+.mark .box .tick{opacity:0}
+.step.done .mark .box .tick{opacity:1}
+
+/* callout */
+.note{display:flex;gap:12px;background:rgba(22,255,106,.08);border:1px solid rgba(22,255,106,.28);border-radius:12px;padding:15px 17px;font-size:14px;color:#cdf0d9;margin-bottom:16px}
+.note .ic{font-size:18px;flex-shrink:0}
+.cost{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.cost .c{border:1px solid var(--line);border-radius:12px;padding:16px;background:#06120c}
+.cost .c .l{font-family:var(--mono);font-size:11px;color:var(--txt3);margin-bottom:6px}
+.cost .c .v{font-weight:700;font-size:15px}
+.cost .c .s{font-size:12.5px;color:var(--txt3);margin-top:3px}
+@media(max-width:560px){.cost{grid-template-columns:1fr}.step-body{padding-left:24px}}
+
+/* ===== SUCCESS ===== */
+.success{border:1px solid rgba(34,197,94,.4);border-radius:20px;background:radial-gradient(120% 130% at 50% 0%,#0c2a1a 0%,#04100a 60%);padding:44px 26px;text-align:center;margin-bottom:30px}
+.success .emoji{font-size:46px;margin-bottom:14px}
+.success h2{font-size:clamp(26px,5vw,40px);margin-bottom:12px}
+.success p{color:var(--txt2);max-width:520px;margin:0 auto 22px}
+.nextgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left;margin-top:8px}
+.nextgrid .n{border:1px solid var(--line);border-radius:12px;padding:16px;background:rgba(255,255,255,.03)}
+.nextgrid .n h4{font-family:var(--display);font-size:15px;margin-bottom:5px}
+.nextgrid .n p{font-size:13px;color:var(--txt3);margin:0}
+@media(max-width:560px){.nextgrid{grid-template-columns:1fr}}
+
+/* ===== HELP FAB ===== */
+.fab{position:fixed;bottom:20px;right:20px;z-index:40;display:inline-flex;align-items:center;gap:9px;background:linear-gradient(90deg,#22c55e,#16a34a);color:#fff;font-weight:700;font-size:14px;padding:13px 20px;border-radius:30px;box-shadow:0 10px 30px -8px rgba(34,197,94,.6);cursor:pointer;animation:pulse 2.8s ease infinite;text-decoration:none}
+.fab:hover{transform:translateY(-2px)}
+.fab svg{width:18px;height:18px}
+
+footer{border-top:1px solid var(--line2);padding:30px 0;color:var(--txt3);font-size:13px;text-align:center}
+</style>
+</head>
+<body data-os="mac">
+<canvas id="matrix" aria-hidden="true"></canvas>
+
+<header>
+  <div class="hbar">
+    <div class="logo"><span class="mark">⬡</span> <span class="txt">Squadwork</span></div>
+    <div class="progress"><div class="fill" id="fill"></div></div>
+    <div class="pcount" id="pcount">0/8</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="pill"><span class="dot"></span> Guia de instalação · ~25 minutos</div>
+    <h1>Vamos colocar seu time de IA<br><span class="grad">pra rodar.</span></h1>
+    <p>Sem enrolação e sem saber programar. Siga os passos na ordem — cada comando é só copiar e colar. No fim, seu primeiro squad estará trabalhando.</p>
+    <div class="os-switch">
+      <button data-os-btn="mac" class="active">🍎 Estou no Mac</button>
+      <button data-os-btn="win">🪟 Estou no Windows</button>
+    </div>
+    <div class="os-hint">Escolha seu sistema acima — os comandos se ajustam sozinhos.</div>
+  </div>
+</section>
+
+<section class="steps">
+<div class="wrap">
+
+<!-- STEP 0 -->
+<div class="step" data-step="0">
+  <div class="step-head">
+    <div class="step-num"><span class="n">0</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Antes de começar</h3><div class="time">⏱ 2 min de leitura</div></div>
+  </div>
+  <div class="step-body">
+    <p>O Squadwork é um time de agentes de IA que roda <strong>no seu próprio computador</strong>. Pra isso funcionar, ele precisa de duas "peças de base" — a gente instala juntos nos próximos passos. Você vai precisar de:</p>
+    <div class="cost">
+      <div class="c"><div class="l">CONTA DE IA</div><div class="v">Claude Pro</div><div class="s">~US$ 20/mês · é o "cérebro" dos agentes</div></div>
+      <div class="c"><div class="l">TEMPO</div><div class="v">~25 minutos</div><div class="s">só na primeira vez</div></div>
+    </div>
+    <div class="note"><span class="ic">💡</span><div>Não precisa saber programar. Você só vai <strong>copiar comandos</strong> e clicar em "instalar". Se travar em qualquer ponto, use o botão verde no canto pra chamar no WhatsApp.</div></div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Pronto pra começar?</b> Marque este passo e vamos lá.</div></div>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 1 -->
+<div class="step" data-step="1">
+  <div class="step-head">
+    <div class="step-num"><span class="n">1</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Instalar o Node.js</h3><div class="time">⏱ ~4 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>O Node.js é o motor que faz o Squadwork rodar. É grátis e a instalação é igual a instalar qualquer programa.</p>
+    <p><strong>1.</strong> Acesse <a href="https://nodejs.org/pt/download" target="_blank" rel="noopener">nodejs.org</a> e baixe a versão <strong>LTS</strong> <span class="os-mac">(escolha o instalador <strong>macOS</strong> — arquivo <code>.pkg</code>)</span><span class="os-win">(escolha o instalador <strong>Windows</strong> — arquivo <code>.msi</code>)</span>.</p>
+    <p><strong>2.</strong> Abra o arquivo baixado e clique em <strong>Avançar / Continuar</strong> até o fim (pode deixar tudo no padrão).</p>
+    <p><strong>3.</strong> Pra conferir se deu certo, abra o terminal:</p>
+    <ul>
+      <li class="os-mac">Aperte <strong>Cmd + Espaço</strong>, digite <strong>Terminal</strong> e tecle Enter.</li>
+      <li class="os-win">Aperte a tecla <strong>Windows</strong>, digite <strong>PowerShell</strong> e tecle Enter.</li>
+    </ul>
+    <p>Cole este comando e tecle Enter:</p>
+    <div class="cmd"><button class="copy">copiar</button>node -v</div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> aparecer algo como <code>v20.x.x</code> ou maior. Se apareceu um número, está instalado!</div></div>
+    <details class="trb"><summary>⚠️ Deu erro ou "comando não encontrado"? <span class="plus">+</span></summary><div class="trb-body"><span class="os-mac">Feche o terminal e abra de novo (ele precisa reiniciar pra reconhecer o Node).</span><span class="os-win">Feche o PowerShell e abra de novo. Se ainda assim não funcionar, reinicie o computador — no Windows às vezes é necessário.</span> Depois rode <code>node -v</code> de novo. Continua dando erro? Chama no WhatsApp que a gente resolve junto.</div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step" data-step="2">
+  <div class="step-head">
+    <div class="step-num"><span class="n">2</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Instalar o Claude Code</h3><div class="time">⏱ ~5 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>O Claude Code é onde os agentes vão trabalhar. Com o terminal ainda aberto, cole o comando:</p>
+    <div class="cmd"><button class="copy">copiar</button>npm install -g @anthropic-ai/claude-code</div>
+    <p>Espere terminar (pode levar 1-2 minutos). Depois, inicie o Claude Code:</p>
+    <div class="cmd"><button class="copy">copiar</button>claude</div>
+    <p>Na primeira vez ele vai pedir pra você <strong>entrar na sua conta</strong>. Vai abrir o navegador — faça login (ou crie sua conta <strong>Claude Pro</strong>) e autorize.</p>
+    <div class="note"><span class="ic">🔑</span><div>Ainda não tem a assinatura? Crie em <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> → escolha o plano <strong>Pro</strong>. É a conta que dá "cérebro" aos seus agentes.</div></div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> o Claude Code abrir e mostrar a tela de conversa dentro do terminal. Pode escrever <code>/help</code> pra testar e depois fechar com <code>/exit</code>.</div></div>
+    <details class="trb"><summary>⚠️ "npm não encontrado" ou erro de permissão? <span class="plus">+</span></summary><div class="trb-body">"npm não encontrado" = o Node não foi instalado (volte ao Passo 1). <span class="os-mac">Erro de permissão no Mac? Cole: <div class="cmd"><button class="copy">copiar</button>sudo npm install -g @anthropic-ai/claude-code</div> e digite a senha do seu Mac (ela não aparece na tela enquanto você digita — é normal).</span><span class="os-win">No Windows, abra o PowerShell <strong>como administrador</strong> (clique com o botão direito no PowerShell → "Executar como administrador") e rode o comando de novo.</span></div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step" data-step="3">
+  <div class="step-head">
+    <div class="step-num"><span class="n">3</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Criar a pasta do seu projeto</h3><div class="time">⏱ ~2 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>O Squadwork mora dentro de uma pasta no seu computador. Vamos criar uma e abrir o terminal exatamente nela.</p>
+    <p class="os-mac"><strong>No Mac:</strong> abra o <strong>Finder</strong>, vá em <strong>Documentos</strong>, crie uma pasta nova chamada <strong>squadwork</strong>. Clique com o botão direito nela → <strong>"Novo Terminal na Pasta"</strong>.</p>
+    <p class="os-win"><strong>No Windows:</strong> abra o <strong>Explorador de Arquivos</strong>, vá em <strong>Documentos</strong>, crie uma pasta nova chamada <strong>squadwork</strong>. Abra ela, clique em um espaço vazio com o botão direito → <strong>"Abrir no Terminal"</strong>.</p>
+    <div class="note"><span class="ic">📁</span><div>Não achou a opção de abrir o terminal na pasta? Sem problema — cole no terminal o comando abaixo (ele cria e entra na pasta de uma vez):</div></div>
+    <div class="cmd os-mac"><button class="copy">copiar</button>mkdir -p ~/Documents/squadwork && cd ~/Documents/squadwork</div>
+    <div class="cmd os-win"><button class="copy">copiar</button>mkdir $HOME\Documents\squadwork; cd $HOME\Documents\squadwork</div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> o caminho que aparece no terminal terminar com <code>squadwork</code>.</div></div>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step" data-step="4">
+  <div class="step-head">
+    <div class="step-num"><span class="n">4</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Instalar o Squadwork</h3><div class="time">⏱ ~3 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>Agora a parte mágica. Com o terminal aberto <strong>dentro da pasta squadwork</strong>, cole:</p>
+    <div class="cmd"><button class="copy">copiar</button>npx opensquad init</div>
+    <p>Ele vai fazer 3 perguntas simples — responda com as <strong>setas do teclado</strong> e <strong>Enter</strong>:</p>
+    <ul>
+      <li><strong>Idioma:</strong> escolha <strong>Português (Brasil)</strong></li>
+      <li><strong>IDE:</strong> marque <strong>Claude Code</strong> (use a barra de espaço pra marcar, depois Enter)</li>
+      <li><strong>Seu nome:</strong> digite seu primeiro nome</li>
+    </ul>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> aparecer uma mensagem de sucesso e a pasta <code>_opensquad</code> for criada dentro do seu projeto.</div></div>
+    <details class="trb"><summary>⚠️ Pediu pra instalar o pacote (digitar "y")? <span class="plus">+</span></summary><div class="trb-body">É normal na primeira vez o <code>npx</code> perguntar se pode baixar o opensquad. Digite <strong>y</strong> e tecle Enter.</div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step" data-step="5">
+  <div class="step-head">
+    <div class="step-num"><span class="n">5</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Abrir o Claude Code e liberar as ferramentas</h3><div class="time">⏱ ~3 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>Ainda no terminal (dentro da pasta squadwork), inicie o Claude Code:</p>
+    <div class="cmd"><button class="copy">copiar</button>claude</div>
+    <p>Na primeira vez, o Claude Code vai perguntar se pode <strong>confiar nesta pasta</strong> e se pode usar as <strong>ferramentas extras</strong> (os "MCPs": navegador e Canva). Responda <strong>sim / yes</strong> pra tudo — são elas que deixam os agentes postarem e desenharem por você.</p>
+    <div class="note"><span class="ic">🧩</span><div>Essas ferramentas são o que diferencia o Squadwork de um chat comum: é o que permite abrir o navegador de verdade, mexer em arquivos e publicar nas redes.</div></div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> o Claude Code abrir já dentro da sua pasta squadwork, pronto pra receber comandos.</div></div>
+    <details class="trb"><summary>⚠️ Apareceu erro de navegador "já em uso"? <span class="plus">+</span></summary><div class="trb-body">Feche todas as janelas do Chrome e tente de novo. Esse navegador é usado pelos agentes pra trabalhar.</div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 6 -->
+<div class="step" data-step="6">
+  <div class="step-head">
+    <div class="step-num"><span class="n">6</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Conectar suas contas</h3><div class="time">⏱ ~3 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>Você só precisa fazer isso <strong>uma vez</strong>, e só quando um squad for de fato publicar em algum lugar (ex: Instagram). Quando isso acontecer, o Squadwork vai abrir o navegador e pedir pra você <strong>fazer login manualmente</strong> na sua conta.</p>
+    <p>Depois do login, ele pergunta se quer <strong>salvar a sessão</strong>. Responda <strong>sim</strong> — assim ele lembra do seu login nas próximas vezes e você não precisa repetir.</p>
+    <div class="note"><span class="ic">🔒</span><div>Seus logins ficam salvos só no <strong>seu computador</strong> (pasta privada, nunca enviada pra ninguém). Pra remover, é só apagar a pasta <code>_opensquad/_browser_profile</code>.</div></div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Tudo certo!</b> Você pode pular isso por agora e fazer quando rodar seu primeiro squad de publicação.</div></div>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 7 -->
+<div class="step" data-step="7">
+  <div class="step-head">
+    <div class="step-num"><span class="n">7</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Rodar seu primeiro squad 🚀</h3><div class="time">⏱ ~3 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>Chegou a hora. Dentro do Claude Code, é só digitar:</p>
+    <div class="cmd"><button class="copy">copiar</button>/opensquad</div>
+    <p>Vai abrir o menu do Squadwork. A partir daí você pode <strong>criar um squad novo</strong> descrevendo o que quer, em português, do seu jeito. Exemplo pra testar:</p>
+    <div class="cmd"><button class="copy">copiar</button>/opensquad crie um squad que gera um carrossel de Instagram sobre um tema que eu escolher</div>
+    <p>O <strong>Arquiteto</strong> vai te fazer algumas perguntas, montar o time e pedir sua aprovação antes de executar. É só seguir o que ele pedir.</p>
+    <div class="check-it"><span class="ic">✓</span><div><b>Parabéns!</b> Se o menu do Squadwork apareceu, está tudo funcionando. 🎉</div></div>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="success" id="success" style="display:none">
+  <div class="emoji">🎉</div>
+  <h2>Seu time de IA está <span class="grad">no ar!</span></h2>
+  <p>Você fez tudo certo. Agora é só usar — e quanto mais você pede, mais o Squadwork entrega por você.</p>
+  <div class="nextgrid">
+    <div class="n"><h4>📚 Aprenda mais</h4><p>Explore os squads prontos e crie os seus com <code>/opensquad</code>.</p></div>
+    <div class="n"><h4>💬 Comunidade</h4><p>Entre no grupo pra trocar ideia e ver o que outros estão criando.</p></div>
+    <div class="n"><h4>🎓 Mentoria</h4><p>Participe dos encontros e acelere seus resultados.</p></div>
+    <div class="n"><h4>🆘 Suporte</h4><p>Travou em algo? Chama no WhatsApp que a gente destrava.</p></div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<a class="fab" id="fab" href="#" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.2-1.4A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-1-.3-1.6-.6-2.9-1.3-4.8-4.2-5-4.4-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.4 0 .5l-.4.5c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.5 2.6 1.6.3.1.5.1.6-.1l.7-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
+  Travou? Chama no WhatsApp
+</a>
+
+<footer>
+  <div class="wrap">⬡ Squadwork · Guia de instalação · Feito pra você começar sem dor de cabeça</div>
+</footer>
+
+<script>
+/* ===== CONFIG: troque pelo seu WhatsApp (55 + DDD + número) ===== */
+const WHATSAPP = "5549999037322"; // <-- seu WhatsApp (49 99903-7322)
+
+const fab = document.getElementById('fab');
+fab.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent('Oi! Travei na instalação do Squadwork e preciso de ajuda.')}`;
+
+/* ===== Matrix rain (chuva de código) ===== */
+(function(){
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cv = document.getElementById('matrix');
+  if(!cv || reduce) return;
+  const ctx = cv.getContext('2d');
+  const chars = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃ01<>[]{}#$%&*/=+≡λØ$01';
+  let cols, drops, fs=15;
+  function rs(){ cv.width=innerWidth; cv.height=innerHeight; cols=Math.ceil(cv.width/fs); drops=Array(cols).fill(0).map(()=>Math.random()*-50); }
+  rs(); addEventListener('resize', rs);
+  function draw(){
+    ctx.fillStyle='rgba(3,7,10,.09)'; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.font=fs+'px monospace';
+    for(let i=0;i<cols;i++){
+      const t=chars[Math.floor(Math.random()*chars.length)];
+      const x=i*fs, y=drops[i]*fs;
+      ctx.fillStyle = Math.random()>.97 ? '#c9ffe2' : '#22ff88';
+      ctx.fillText(t,x,y);
+      if(y>cv.height && Math.random()>.975) drops[i]=0;
+      drops[i]++;
+    }
+  }
+  setInterval(draw,60);
+})();
+
+/* ===== OS switcher (persisted) ===== */
+const osBtns = document.querySelectorAll('[data-os-btn]');
+function setOS(os){
+  document.body.dataset.os = os;
+  osBtns.forEach(b => b.classList.toggle('active', b.dataset.osBtn === os));
+  try{ localStorage.setItem('os_pref', os); }catch(e){}
+}
+osBtns.forEach(b => b.addEventListener('click', () => setOS(b.dataset.osBtn)));
+try{ const saved = localStorage.getItem('os_pref'); if(saved) setOS(saved); }catch(e){}
+
+/* ===== Copy buttons ===== */
+document.querySelectorAll('.cmd').forEach(box => {
+  const btn = box.querySelector('.copy');
+  if(!btn) return;
+  btn.addEventListener('click', () => {
+    const text = box.childNodes[box.childNodes.length-1].textContent.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      const old = btn.textContent; btn.textContent = 'copiado ✓'; btn.classList.add('ok');
+      setTimeout(() => { btn.textContent = old; btn.classList.remove('ok'); }, 1600);
+    });
+  });
+});
+
+/* ===== Progress + mark done (persisted) ===== */
+const steps = document.querySelectorAll('.step');
+const TOTAL = steps.length;
+const fill = document.getElementById('fill');
+const pcount = document.getElementById('pcount');
+const success = document.getElementById('success');
+let doneSet = new Set();
+try{ doneSet = new Set(JSON.parse(localStorage.getItem('done_steps')||'[]')); }catch(e){}
+
+function render(){
+  steps.forEach(s => s.classList.toggle('done', doneSet.has(s.dataset.step)));
+  const n = doneSet.size;
+  fill.style.width = (n/TOTAL*100) + '%';
+  pcount.textContent = n + '/' + TOTAL;
+  success.style.display = (n === TOTAL) ? 'block' : 'none';
+}
+steps.forEach(s => {
+  s.querySelector('.mark').addEventListener('click', () => {
+    const id = s.dataset.step;
+    if(doneSet.has(id)) doneSet.delete(id); else doneSet.add(id);
+    try{ localStorage.setItem('done_steps', JSON.stringify([...doneSet])); }catch(e){}
+    render();
+    if(doneSet.has(id) && doneSet.size === TOTAL){ success.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+render();
+</script>
+</body>
+</html>
