@@ -113,6 +113,18 @@ details.trb .trb-body .cmd{margin-top:10px}
 .cost .c .s{font-size:12.5px;color:var(--txt3);margin-top:3px}
 @media(max-width:560px){.cost{grid-template-columns:1fr}.step-body{padding-left:24px}}
 
+/* ===== PARTE 2 ===== */
+.part{text-align:center;padding:50px 0 26px;border-top:1px solid var(--line2);margin-top:20px}
+.part h2{font-size:clamp(28px,5.4vw,44px);margin-bottom:14px}
+.part>p{color:var(--txt2);font-size:clamp(15px,2.2vw,17px);max-width:600px;margin:0 auto 22px}
+.part .cost{text-align:left;max-width:600px;margin:0 auto}
+.dns{width:100%;border-collapse:collapse;margin-bottom:14px;font-family:var(--mono);font-size:12.5px;background:#04100a;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.dns th{text-align:left;color:var(--txt3);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line)}
+.dns td{color:#cdffe0;padding:8px 10px;border-bottom:1px solid var(--line2)}
+.cmd.wrapcmd{white-space:pre-wrap;font-size:13px;line-height:1.55}
+.jump{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:13px;color:var(--blue-l);text-decoration:none;border-bottom:1px dashed rgba(125,255,170,.5);padding-bottom:2px}
+@media(max-width:560px){.cmd{white-space:pre-wrap;word-break:break-word}}
+
 /* ===== SUCCESS ===== */
 .success{border:1px solid rgba(34,197,94,.4);border-radius:20px;background:radial-gradient(120% 130% at 50% 0%,#0c2a1a 0%,#04100a 60%);padding:44px 26px;text-align:center;margin-bottom:30px}
 .success .emoji{font-size:46px;margin-bottom:14px}
@@ -139,7 +151,7 @@ footer{border-top:1px solid var(--line2);padding:30px 0;color:var(--txt3);font-s
   <div class="hbar">
     <div class="logo"><img src="squadwork-logo.png" alt="SquadWork" style="height:30px;display:block;mix-blend-mode:screen"></div>
     <div class="progress"><div class="fill" id="fill"></div></div>
-    <div class="pcount" id="pcount">0/9</div>
+    <div class="pcount" id="pcount">0/15</div>
   </div>
 </header>
 
@@ -153,6 +165,7 @@ footer{border-top:1px solid var(--line2);padding:30px 0;color:var(--txt3);font-s
       <button data-os-btn="win">🪟 Estou no Windows</button>
     </div>
     <div class="os-hint">Escolha seu sistema acima — os comandos se ajustam sozinhos.</div>
+    <div><a class="jump" href="#parte2">Já instalou? Pule pra Parte 2: sites pra clientes →</a></div>
   </div>
 </section>
 
@@ -341,6 +354,150 @@ footer{border-top:1px solid var(--line2);padding:30px 0;color:var(--txt3);font-s
   </div>
 </div>
 
+<!-- ===== PARTE 2: SITES PRA CLIENTES ===== -->
+<div class="part" id="parte2">
+  <div class="pill"><span class="dot"></span> Parte 2 · <span id="p2count">0/6</span></div>
+  <h2>Fazer e publicar <span class="grad">site pra cliente.</span></h2>
+  <p>Com o Claude Code instalado, você descreve o site em português e a IA escreve tudo. Depois ele vai pro ar <strong>de graça</strong> no GitHub Pages, com domínio próprio e cadeado. É o mesmo caminho que a gente usa nos sites de provedores, lojas e clínicas.</p>
+  <div class="cost">
+    <div class="c"><div class="l">HOSPEDAGEM</div><div class="v">R$ 0</div><div class="s">GitHub Pages · grátis pra sempre</div></div>
+    <div class="c"><div class="l">DOMÍNIO .COM.BR</div><div class="v">~R$ 40/ano</div><div class="s">no Registro.br · o cliente pode pagar</div></div>
+  </div>
+</div>
+
+<!-- STEP 9 -->
+<div class="step p2" data-step="9">
+  <div class="step-head">
+    <div class="step-num"><span class="n">9</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Criar sua conta no GitHub</h3><div class="time">⏱ ~8 min · só na primeira vez</div></div>
+  </div>
+  <div class="step-body">
+    <p>O GitHub é onde os sites ficam guardados e publicados. Você precisa de 3 coisas: a conta, o <strong>Git</strong> e o <strong>GitHub CLI</strong> (o programa que deixa o Claude Code publicar por você).</p>
+    <p><strong>1.</strong> Crie sua conta grátis em <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>. Escolha bem o nome de usuário: ele aparece no endereço dos sites (<code>seunome.github.io</code>).</p>
+    <p><strong>2.</strong> Instale o Git:</p>
+    <ul>
+      <li class="os-mac">No Terminal, cole <code>git --version</code>. Se o Mac oferecer pra instalar as "ferramentas de linha de comando", clique em <strong>Instalar</strong> e espere.</li>
+      <li class="os-win">Baixe em <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a> e instale clicando em "Next" até o fim (pode deixar tudo no padrão).</li>
+    </ul>
+    <p><strong>3.</strong> Instale o GitHub CLI: baixe em <a href="https://cli.github.com" target="_blank" rel="noopener">cli.github.com</a> <span class="os-mac">(arquivo <code>.pkg</code> do macOS)</span><span class="os-win">(arquivo <code>.msi</code> do Windows)</span> e instale.</p>
+    <p><strong>4.</strong> Feche e abra o terminal de novo, e conecte sua conta:</p>
+    <div class="cmd"><button class="copy">copiar</button>gh auth login</div>
+    <p>Responda com as setas e Enter: <strong>GitHub.com</strong> → <strong>HTTPS</strong> → <strong>Yes</strong> → <strong>Login with a web browser</strong>. Ele mostra um código de 8 letras, abre o navegador e você cola o código lá.</p>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> aparecer <code>Logged in as seunome</code>.</div></div>
+    <details class="trb"><summary>⚠️ "gh: comando não encontrado"? <span class="plus">+</span></summary><div class="trb-body">Feche o terminal e abra de novo — ele precisa reiniciar pra enxergar o programa novo. <span class="os-win">No Windows, se não resolver, reinicie o computador.</span></div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 10 -->
+<div class="step p2" data-step="10">
+  <div class="step-head">
+    <div class="step-num"><span class="n">10</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Pedir o site pro Claude Code</h3><div class="time">⏱ ~10 min</div></div>
+  </div>
+  <div class="step-body">
+    <p><strong>1.</strong> Junte o material do cliente: <strong>logo, fotos, cores, serviços, endereço e WhatsApp</strong>. Coloque os arquivos numa pasta <code>sites/nome-do-cliente</code> dentro da sua pasta squadwork.</p>
+    <p><strong>2.</strong> Abra o Claude Code na pasta squadwork (<code>claude</code>), copie o pedido abaixo e <strong>troque o que está entre colchetes</strong>:</p>
+    <div class="cmd wrapcmd"><button class="copy">copiar</button>Crie um site de uma página só para [NOME DO CLIENTE], que [o que a empresa faz] em [cidade]. Salve em sites/[nome-do-cliente]/index.html, tudo num arquivo só. Faça pensando primeiro no celular. Seções: topo com uma chamada forte, serviços, sobre, depoimentos, perguntas frequentes e contato. Cores: [cores da marca]. Use o logo e as fotos que estão na pasta. WhatsApp: [55 + DDD + número]. Coloque um botão flutuante de WhatsApp e um formulário de contato que abre o WhatsApp com a mensagem pronta.</div>
+    <p><strong>3.</strong> Quando ele terminar, peça: <em>"abra o site no navegador"</em>. Não gostou de algo? Peça do seu jeito: <em>"deixa o topo mais escuro"</em>, <em>"troca a foto do topo"</em>, <em>"aumenta o botão"</em>.</p>
+    <div class="note"><span class="ic">💡</span><div>Quanto mais informação real do cliente, melhor fica o site. Sem material, a IA inventa texto genérico — e site genérico não vende.</div></div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> o site abriu no navegador com o nome, as cores e o WhatsApp do cliente.</div></div>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 11 -->
+<div class="step p2" data-step="11">
+  <div class="step-head">
+    <div class="step-num"><span class="n">11</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Ajustar pro celular 📱</h3><div class="time">⏱ ~5 min · nunca pule</div></div>
+  </div>
+  <div class="step-body">
+    <p>Quase todo cliente que vem de anúncio ou do Instagram abre o site <strong>no celular</strong>. Se ficar ruim no celular, o site não funciona — não importa o quão bonito esteja no computador.</p>
+    <p><strong>1.</strong> Com o site aberto no Chrome, aperte <strong><span class="os-mac">Cmd + Option + I</span><span class="os-win">F12</span></strong> e depois <strong><span class="os-mac">Cmd</span><span class="os-win">Ctrl</span> + Shift + M</strong>. A tela vira um celular. Escolha <strong>iPhone</strong> lá em cima.</p>
+    <p><strong>2.</strong> Confira:</p>
+    <ul>
+      <li>Dá pra ler o texto <strong>sem dar zoom</strong>?</li>
+      <li>Os botões são <strong>grandes</strong> o suficiente pro dedo?</li>
+      <li>Nada <strong>vaza pro lado</strong> (a tela não arrasta na horizontal)?</li>
+      <li>O botão do WhatsApp aparece <strong>sem precisar rolar muito</strong>?</li>
+    </ul>
+    <p><strong>3.</strong> Achou problema? Peça pro Claude Code revisar:</p>
+    <div class="cmd wrapcmd"><button class="copy">copiar</button>Revise o site sites/[nome-do-cliente] no tamanho de celular (390px de largura). Corrija qualquer texto pequeno, botão difícil de tocar ou coisa vazando pro lado.</div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> você conseguir navegar o site inteiro no modo celular sem dar zoom e sem a tela arrastar pro lado.</div></div>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 12 -->
+<div class="step p2" data-step="12">
+  <div class="step-head">
+    <div class="step-num"><span class="n">12</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Testar o formulário que manda pro WhatsApp</h3><div class="time">⏱ ~3 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>O formulário não precisa de servidor nem de mensalidade: quando a pessoa clica em enviar, o site <strong>abre o WhatsApp do cliente com a mensagem já escrita</strong> (nome, telefone e o que ela quer). Ela só aperta enviar.</p>
+    <p><strong>1.</strong> Preencha o formulário com dados de teste e clique em enviar.</p>
+    <p><strong>2.</strong> Confira se abriu a conversa com o <strong>número certo</strong> e se a mensagem chegou <strong>completa</strong>.</p>
+    <p>Se o site ainda não tem formulário, peça:</p>
+    <div class="cmd wrapcmd"><button class="copy">copiar</button>Adicione um formulário de contato com nome, telefone e mensagem. Ao enviar, abra o WhatsApp [55 + DDD + número] com a mensagem pronta, organizada com os dados preenchidos.</div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> o WhatsApp abriu no número do cliente com a mensagem pronta.</div></div>
+    <details class="trb"><summary>⚠️ Abriu "número inválido" no WhatsApp? <span class="plus">+</span></summary><div class="trb-body">O número tem que estar no formato <strong>55 + DDD + número</strong>, só números, sem espaço nem traço. Exemplo: <code>5511999998888</code>. Peça pro Claude Code corrigir.</div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 13 -->
+<div class="step p2" data-step="13">
+  <div class="step-head">
+    <div class="step-num"><span class="n">13</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Publicar grátis no GitHub Pages 🚀</h3><div class="time">⏱ ~3 min</div></div>
+  </div>
+  <div class="step-body">
+    <p>Agora o site vai pra internet. Você não precisa saber Git: o Claude Code faz tudo. Cole:</p>
+    <div class="cmd wrapcmd"><button class="copy">copiar</button>Publique a pasta sites/[nome-do-cliente] no GitHub Pages: crie um repositório público chamado [nome-do-cliente] na minha conta, envie os arquivos, ative o GitHub Pages na branch main e me mande o link quando estiver no ar.</div>
+    <p>Em 1 a 2 minutos o site fica no ar num endereço assim: <code>seunome.github.io/nome-do-cliente</code>. Já dá pra mandar pro cliente aprovar.</p>
+    <div class="note"><span class="ic">🔁</span><div><b>Pra atualizar depois:</b> peça a mudança e diga <em>"publique a atualização"</em>. Em 1 minuto o site no ar muda sozinho.</div></div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> o link abrir o site no seu celular (fora do Wi-Fi, pra ter certeza).</div></div>
+    <details class="trb"><summary>⚠️ O link deu erro 404? <span class="plus">+</span></summary><div class="trb-body">Na primeira publicação o GitHub pode levar até 10 minutos. Espere um pouco e atualize a página. Continuou? Peça ao Claude Code: <em>"confira por que o GitHub Pages do [nome-do-cliente] não está no ar"</em>.</div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<!-- STEP 14 -->
+<div class="step p2" data-step="14">
+  <div class="step-head">
+    <div class="step-num"><span class="n">14</span><span class="check">✓</span></div>
+    <div class="ttl"><h3>Domínio próprio no Registro.br + cadeado 🔒</h3><div class="time">⏱ ~15 min + espera do DNS</div></div>
+  </div>
+  <div class="step-body">
+    <p>Pra trocar o <code>seunome.github.io/...</code> por <strong>nomedocliente.com.br</strong>, com o cadeado de site seguro (HTTPS).</p>
+    <p><strong>1.</strong> Registre o domínio em <a href="https://registro.br" target="_blank" rel="noopener">registro.br</a> (~R$ 40/ano). O ideal é registrar <strong>no CPF/CNPJ do cliente</strong>: o domínio é dele.</p>
+    <p><strong>2.</strong> No Registro.br, abra o domínio → <strong>DNS</strong> → <strong>Editar zona</strong> (se pedir, ative o <strong>modo avançado</strong>). Crie estes registros:</p>
+    <table class="dns">
+      <tr><th>Tipo</th><th>Nome</th><th>Valor</th></tr>
+      <tr><td>A</td><td>(vazio)</td><td>185.199.108.153</td></tr>
+      <tr><td>A</td><td>(vazio)</td><td>185.199.109.153</td></tr>
+      <tr><td>A</td><td>(vazio)</td><td>185.199.110.153</td></tr>
+      <tr><td>A</td><td>(vazio)</td><td>185.199.111.153</td></tr>
+      <tr><td>CNAME</td><td>www</td><td>seunome.github.io</td></tr>
+    </table>
+    <p><strong>3.</strong> Peça ao Claude Code:</p>
+    <div class="cmd wrapcmd"><button class="copy">copiar</button>Configure o domínio [nomedocliente.com.br] no GitHub Pages do site [nome-do-cliente]. Depois confira se o DNS já está apontando certo.</div>
+    <p><strong>4.</strong> Espere o DNS espalhar (de minutos até algumas horas). Quando o site abrir pelo domínio, peça: <em>"ative o Enforce HTTPS do site [nome-do-cliente]"</em>. O cadeado pode levar até 24h pra ficar pronto.</p>
+    <div class="note"><span class="ic">⚠️</span><div><b>O cliente já tem e-mail nesse domínio</b> (ex: contato@nomedocliente.com.br)? <b>Antes de mexer no DNS</b>, anote os registros <strong>MX</strong> (e TXT) que já existem e recrie eles na zona nova. Senão o e-mail dele para de funcionar.</div></div>
+    <div class="check-it"><span class="ic">✓</span><div><b>Deu certo se</b> <code>https://nomedocliente.com.br</code> abrir o site com o <b>cadeado</b> na barra do navegador.</div></div>
+    <details class="trb"><summary>⚠️ O cadeado travou e não sai nunca? <span class="plus">+</span></summary><div class="trb-body">Peça ao Claude Code: <em>"remova e adicione de novo o domínio do site [nome-do-cliente] no GitHub Pages"</em>. Isso destrava a emissão do certificado. Prefira sempre o domínio principal (com e sem www), não subdomínios.</div></details>
+    <button class="mark"><span class="box"><span class="tick">✓</span></span> Marcar como feito</button>
+  </div>
+</div>
+
+<div class="success" id="success2" style="display:none">
+  <div class="emoji">🌐</div>
+  <h2>Site do cliente <span class="grad">no ar!</span></h2>
+  <p>Do zero ao domínio com cadeado. Agora é repetir: cada cliente novo é uma pasta nova em <code>sites/</code> e o mesmo caminho dos passos 10 a 14.</p>
+</div>
+
 </div>
 </section>
 
@@ -410,19 +567,25 @@ document.querySelectorAll('.cmd').forEach(box => {
 
 /* ===== Progress + mark done (persisted) ===== */
 const steps = document.querySelectorAll('.step');
-const TOTAL = steps.length;
+const p1 = document.querySelectorAll('.step:not(.p2)');
+const p2 = document.querySelectorAll('.step.p2');
 const fill = document.getElementById('fill');
 const pcount = document.getElementById('pcount');
+const p2count = document.getElementById('p2count');
 const success = document.getElementById('success');
+const success2 = document.getElementById('success2');
 let doneSet = new Set();
 try{ doneSet = new Set(JSON.parse(localStorage.getItem('done_steps')||'[]')); }catch(e){}
+const doneIn = list => [...list].filter(s => doneSet.has(s.dataset.step)).length;
 
 function render(){
   steps.forEach(s => s.classList.toggle('done', doneSet.has(s.dataset.step)));
-  const n = doneSet.size;
-  fill.style.width = (n/TOTAL*100) + '%';
-  pcount.textContent = n + '/' + TOTAL;
-  success.style.display = (n === TOTAL) ? 'block' : 'none';
+  const n = doneIn(p1), n2 = doneIn(p2);
+  fill.style.width = ((n+n2)/steps.length*100) + '%';
+  pcount.textContent = (n+n2) + '/' + steps.length;
+  p2count.textContent = n2 + '/' + p2.length;
+  success.style.display = (n === p1.length) ? 'block' : 'none';
+  success2.style.display = (n2 === p2.length) ? 'block' : 'none';
 }
 steps.forEach(s => {
   s.querySelector('.mark').addEventListener('click', () => {
@@ -430,7 +593,10 @@ steps.forEach(s => {
     if(doneSet.has(id)) doneSet.delete(id); else doneSet.add(id);
     try{ localStorage.setItem('done_steps', JSON.stringify([...doneSet])); }catch(e){}
     render();
-    if(doneSet.has(id) && doneSet.size === TOTAL){ success.scrollIntoView({behavior:'smooth'}); }
+    if(!doneSet.has(id)) return;
+    const isP2 = s.classList.contains('p2');
+    if(!isP2 && doneIn(p1) === p1.length) success.scrollIntoView({behavior:'smooth'});
+    if(isP2 && doneIn(p2) === p2.length) success2.scrollIntoView({behavior:'smooth'});
   });
 });
 render();
